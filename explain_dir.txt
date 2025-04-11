@@ -1,0 +1,53 @@
+soulsync-backend/
+├── app/
+│   ├── __init__.py
+│   ├── main.py                    # FastAPI 앱 시작점
+│   ├── config.py                  # 환경변수 및 설정 (Firebase, DB URL 등)
+│   ├── dependencies.py            # 공통 의존성 (DB, 인증 등)
+│   ├── models/                    # SQLAlchemy 모델들
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   ├── chat.py
+│   │   ├── emotion.py
+│   │   └── alert.py
+│   ├── schemas/                   # Pydantic 스키마들
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   ├── chat.py
+│   │   ├── emotion.py
+│   │   └── alert.py
+│   ├── crud/                      # DB CRUD 함수 분리
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   ├── chat.py
+│   │   ├── emotion.py
+│   │   └── alert.py
+│   ├── routers/                   # 실제 API 라우터들
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── user.py
+│   │   ├── chat.py
+│   │   ├── emotion.py
+│   │   └── alert.py
+│   ├── chatbot/                   # 챗봇 관련 로직 모듈
+│   │   ├── __init__.py
+│   │   ├── core.py                # LangChain 처리 흐름
+│   │   ├── prompt_templates.py    # 프롬프트 템플릿 정의
+│   │   └── memory.py              # 대화 메모리 관리 (ex. Redis 등)
+│   └── firebase/                  # Firebase 관련 유틸
+│       ├── __init__.py
+│       └── auth.py                # Firebase ID 토큰 검증
+├── firebase-service-account.json  # Firebase 인증키
+├── .env                           # 환경변수 저장
+├── requirements.txt               # 패키지 목록
+└── README.md
+
+폴더	역할
+models/	DB 테이블 구조 정의 (SQLAlchemy)
+schemas/	Pydantic 기반 요청/응답용 데이터 구조 정의
+crud/	DB 접근 로직 (Insert/Select 등)
+routers/	FastAPI의 API 경로들 모아둔 곳
+chatbot/	LangChain, 감정 분석, 챗봇 로직 담당
+firebase/	Firebase 토큰 검증 모듈
+dependencies.py	Depends()로 쓸 공통 함수 모음 (ex. DB 세션, 인증)
+config.py	환경변수 설정, 예: .env 불러오기
