@@ -1,1 +1,2 @@
-안녕안녕안녕안녕안녕ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+우선 requirements 폴더 이름 수정하고, pip install 할 목록들 전부 다 추가해서 수정해놨습니다 #woojoong1
+main.py 잘 보면 chatbot 등등의 폴더들이 전부 app 폴더 안에 들어가 있어야 작동하는 구조라, 폴더 구조 바꿔놨습니다 #woojoong1
