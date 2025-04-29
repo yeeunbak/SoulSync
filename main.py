@@ -18,3 +18,4 @@ app.include_router(alert.router, prefix="/alert", tags=["Alert"])
 
 #깃 확인중
 # 확인 (hyeryeon02)
+# 하 이 짓 만 몇 번 이 야 (woojoong1)
