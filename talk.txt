@@ -3,3 +3,5 @@ main.py 잘 보면 chatbot 등등의 폴더들이 전부 app 폴더 안에 들�
 app 폴더를 새로 만들고 그 안에 chatbot, crud, firebase, models, routers, schemas, config.py, dependencies.py 총 8개 옮겨놨습니다 #woojoong1
 models 폴더에 user.py 파일하고 conversation.py 파일 수정하고 코드 안에 대충 짜놨습니다, 무시하시고 예은씨 하고 싶은 대로 진행하셔도 됩니다! #woojoong1
 참고로 models 폴더에 risk_analysis.py 파일은 그냥 파일명만 바꿔놓았습니다 #woojoong1
+chatbot 폴더 core.py 랑 memory.py 삭제하고 gpt_service.py 랑 prompt_templates.py, risk_detector.py 파일 새로 만들었습니다 #woojoong1
+3개의 파일 전부 다 주석 자세히 해놨으니까 직접 파일 열고 확인해 보시면 됩니다 #woojoong1
