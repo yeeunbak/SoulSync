@@ -39,7 +39,7 @@ def detect_crisis(user_message: str) -> bool:
         "반드시 'Yes' 또는 'No'로만 답변하세요.\n\n"
         f"사용자 발화: {user_message}\n\n"
         "응답:"
-    )
+    ) #yeeun 수정해야함.
 
     response = openai.ChatCompletion.create(
         model="gpt-4o",
