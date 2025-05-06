@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from models.chat import ChatDBModel
+from app.models.chat import ChatDBModel
 from datetime import datetime
 
 async def save_chat(db: AsyncIOMotorDatabase, chat_data: ChatDBModel):
