@@ -1,33 +1,35 @@
+import openai
 import os
-import json
-from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def analyze_emotion(user_message: str) -> dict:
-    system_prompt = (
-        "너는 사용자의 발화에서 감정을 분석하는 심리상담 AI야.\n"
-        "'우울', '불안', '무기력' 정도를 0~100 사이의 숫자로 분석해서 "
-        "정확히 다음 JSON 형태로만 응답해:\n"
-        '{ "depression": 70, "anxiety": 45, "lethargy": 30 }'
-    )
+    prompt = f"""
+다음 사용자 발화에서 '우울', '불안', '무기력' 정도를 0부터 100 사이 점수로 평가해줘. 형식은 JSON으로, 예시는 다음과 같아:
+{{
+  "depression": 70,
+  "anxiety": 45,
+  "lethargy": 30
+}}
+사용자 발화: "{user_message}"
+"""
 
-    response = client.chat.completions.create(
-        model="gpt-4o",
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",  # 또는 gpt-4o
         messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_message}
+            {"role": "user", "content": prompt}
         ],
         temperature=0.5
     )
 
     try:
-        content = response.choices[0].message.content.strip()
-        emotion_data = json.loads(content)
-        return emotion_data
+        text = response['choices'][0]['message']['content']
+        import json
+        emotion = json.loads(text)  # ✅ eval() 대신 json.loads 사용
+        return emotion
     except Exception as e:
-        # 실패 시 디버깅용 로그 출력 (선택 사항)
-        print(f"Emotion parsing failed: {e}\nGPT response:\n{content}")
+        print(f"Error parsing response: {e}\nGPT returned:\n{text}")
         return {"depression": 0, "anxiety": 0, "lethargy": 0}
