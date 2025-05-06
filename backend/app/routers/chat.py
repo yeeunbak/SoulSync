@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.chat import ChatRequest, ChatResponse, EmotionScore
-from chatbot.analyze_emotion import analyze_emotion
-from chatbot.character_response import generate_character_prompt
-from crud.chat import save_chat
-from models.chat import ChatDBModel
-from db.mongo import get_database
+from app.chatbot.analyze_emotion import analyze_emotion
+from app.chatbot.character_response import generate_character_prompt
+from app.crud.chat import save_chat
+from app.models.chat import ChatDBModel
+from app.db.mongo import get_database
 import openai
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
