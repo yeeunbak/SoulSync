@@ -9,3 +9,8 @@ class User(BaseModel):
         "현실적 조언가형", 
         "트라우마 민감형"
     ]  # 반드시 4개 중 하나
+
+    
+class UserInDB(BaseModel):
+    username: str
+    hashed_password: str
