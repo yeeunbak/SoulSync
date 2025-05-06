@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from schemas.chat import ChatRequest, ChatResponse, EmotionScore
+from app.schemas.chat import ChatRequest, ChatResponse, EmotionScore
 from chatbot.analyze_emotion import analyze_emotion
 from chatbot.character_response import generate_character_prompt
 from crud.chat import save_chat
