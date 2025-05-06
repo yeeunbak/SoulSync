@@ -1,0 +1,16 @@
+app/routers/user.py 파일이 존재하므로:
+
+그 파일 안에 /user/register, /user/login 엔드포인트 구현
+
+필요한 Pydantic 모델은 app/schemas/user.py (또는 app/schemas/ 안에 새로 만들기)
+
+DB 처리 로직은 app/crud/user.py에 구현
+
+
+routers/user.py → 로그인/회원가입 라우터
+
+schemas/user.py → UserRegister, UserLogin 모델
+
+crud/user.py → get_user_by_username, create_user
+
+utils/auth.py (선택) → 비밀번호 해시 등
