@@ -1,21 +1,29 @@
 from fastapi import FastAPI
-from app.routers import auth, user, chat, emotion, alert
-from app.config import settings
+from fastapi.middleware.cors import CORSMiddleware
+from routers import chat
+import openai
+import os
+from dotenv import load_dotenv
 
-app = FastAPI(
-    title="SoulSync Backend",
-    description="SoulSync 백엔드",
-    version="1.0.0"
+load_dotenv()
+
+# OpenAI API 키 설정
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+app = FastAPI(title="SoulSync API", version="1.0")
+
+# CORS 설정 (프론트엔드에서 요청 허용)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 배포 시에는 특정 origin만 허용!
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-app.include_router(auth.router, prefix="/auth", tags=["Auth"])
-app.include_router(user.router, prefix="/user", tags=["User"])
-app.include_router(chat.router, prefix="/chat", tags=["Chat"])
-app.include_router(emotion.router, prefix="/emotion", tags=["Emotion"])
-app.include_router(alert.router, prefix="/alert", tags=["Alert"])
+# 라우터 등록
+app.include_router(chat.router)
 
-
-
-#깃 확인중
-# 확인 (hyeryeon02)
-# 하 이 짓 만 몇 번 이 야 (woojoong1)
+@app.get("/")
+def root():
+    return {"message": "SoulSync API is running."}

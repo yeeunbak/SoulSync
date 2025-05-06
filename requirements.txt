@@ -1,9 +1,6 @@
 fastapi
-uvicorn
-openai
+uvicorn[standard]
 python-dotenv
-langchain
-langchain-openai
-pydantic-settings
-pymongo
-firebase-admin
+openai
+pydantic
+motor
