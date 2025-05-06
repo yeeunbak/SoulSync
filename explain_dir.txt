@@ -51,3 +51,5 @@ chatbot/	LangChain, 감정 분석, 챗봇 로직 담당
 firebase/	Firebase 토큰 검증 모듈
 dependencies.py	Depends()로 쓸 공통 함수 모음 (ex. DB 세션, 인증)
 config.py	환경변수 설정, 예: .env 불러오기
+
+
