@@ -1,0 +1,50 @@
+# analyze_emotion.py
+
+사용자의 메시지를 받아서 그 안에 담긴 감정 상태—우울(depression), 불안(anxiety), 무기력(lethargy)—을 분석하고 각각을 0~100점 사이의 수치로 평가해주는 기능.
+
+
+
+# character_response.py
+
+GPT 기반 상담 챗봇에서 캐릭터별 말투와 스타일을 다르게 적용하기 위한 템플릿 생성기.
+
+
+
+# crud/chat.py
+
+MongoDB에 채팅 데이터를 저장하고 조회하는 비동기 함수들. FastAPI 프로젝트에서 GPT 챗봇과의 대화를 저장/불러오기 위해 MongoDB를 사용하는 경우에 쓰이는 전형적인 구조.
+
+
+
+# db/mongo.py
+
+MongoDB에 연결해서 데이터베이스 객체를 반환하는 설정 코드. 즉 .env 파일에서 MongoDB 주소와 DB 이름을 불러오고, MongoDB 클라이언트를 생성하고, 데이터 베이스에 접근할 수 있는 get_database() 함수를 제공.
+
+
+
+# models/chat.py
+
+MongoDB에 저장될 챗봇 대화 데이터를 구조화한 Pydantic 모델 (ChatDBModel),
+FastAPI와 함께 사용할 때, 데이터의 입력/출력 유효성 검사 및 스키마 문서화에 매우 유용.
+
+
+
+# routers/chat.py
+
+1. 감정 점수 분석
+2. 선택한 캐릭터에 맞는 말투로 GPT에게 응답 요청
+3. 대화 기록을 MongoDB에 저장한 후
+4. 결과를 JSON으로 반환해주는 POST API 엔드 포인트를 만듦
+
+
+
+# schemas/chat.py
+
+FastAPI 챗봇 API의 요청/응답 구조를 정의한 Pydantic 스키마들이야. 클라이언트와 서버가 어떤 형식으로 데이터를 주고받을지 엄격히 지정하는 데 쓰이는 중요한 부분.
+
+
+
+# main.py
+
+이 코드는 FastAPI 서버의 진입점(main.py) 역할을 하는 스크립트, SoulSync 프로젝트의 백엔드 서버를 구동하기 위한 전체 설정과 라우팅이 이곳에 정의돼 있음.
+
