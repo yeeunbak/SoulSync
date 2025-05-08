@@ -17,3 +17,5 @@ def generate_character_prompt(character: CharacterType, user_message: str) -> st
 "{user_message}"
 
 이 사용자에게 어울리는 말투와 스타일로 1~2 문장 정도로 따뜻하고 진심 어린 상담 답변을 해줘."""
+
+# 안녕, 내 이름은 이우중이야
