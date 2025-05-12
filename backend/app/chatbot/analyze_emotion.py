@@ -10,7 +10,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def analyze_emotion(user_message: str) -> dict:
     prompt = f"""
 너는 사용자의 발화를 바탕으로 감정을 분석하는 심리상담 AI야.
-사용자의 말에서 '우울(depression)', '불안(anxiety)', '무기력(lethargy)' 정도를 각각 0.0부터 100.0까지의 소수점 숫자로 평가해줘.
+사용자의 말에서 '우울(depression)', '불안(anxiety)', '무기력(lethargy)' 정도를 각각 0부터 100까지의 **정수(integer)**로 평가해줘.
+**1단위 정밀도로 추정해야 하며, 10단위(예: 60, 70)로만 대답하지 말고 다양한 수치로 판단해.**
 
 다음 형식의 JSON으로만 응답해:
 {{
@@ -35,16 +36,12 @@ def analyze_emotion(user_message: str) -> dict:
         print("GPT 응답:", text)  # 디버깅용 출력
 
         emotion = json.loads(text)  # JSON 파싱
-
-        # float 변환 처리 추가
-        emotion = {
-            "depression": float(emotion.get("depression", 0.0)),
-            "anxiety": float(emotion.get("anxiety", 0.0)),
-            "lethargy": float(emotion.get("lethargy", 0.0)),
+        return {
+            "depression": int(emotion.get("depression", 0)),
+            "anxiety": int(emotion.get("anxiety", 0)),
+            "lethargy": int(emotion.get("lethargy", 0))
         }
-
-        return emotion
 
     except Exception as e:
         print(f"Error parsing response: {e}\nGPT returned:\n{text}")
-        return {"depression": 0.0, "anxiety": 0.0, "lethargy": 0.0}
+        return {"depression": 0, "anxiety": 0, "lethargy": 0}
