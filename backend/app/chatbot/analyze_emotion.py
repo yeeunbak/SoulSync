@@ -37,22 +37,14 @@ def analyze_emotion(user_message: str) -> dict:
         text = response['choices'][0]['message']['content']
         print("GPT 응답:\n", text)
 
-        # 코드블록 
-json 또는
- 제거 처리
+        # 코드블록 ```json 또는 ``` 제거 처리
         clean_text = text.strip()
-        if clean_text.startswith("
-json"):
-            clean_text = clean_text.removeprefix("
-json").strip()
-        if clean_text.startswith("
-"):
-            clean_text = clean_text.removeprefix("
-").strip()
-        if clean_text.endswith("
-"):
-            clean_text = clean_text.removesuffix("
-").strip()
+        if clean_text.startswith("```json"):
+            clean_text = clean_text.removeprefix("```json").strip()
+        if clean_text.startswith("```"):
+            clean_text = clean_text.removeprefix("```").strip()
+        if clean_text.endswith("```"):
+            clean_text = clean_text.removesuffix("```").strip()
 
         emotion = json.loads(clean_text)
 
