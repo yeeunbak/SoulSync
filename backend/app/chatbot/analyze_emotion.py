@@ -9,16 +9,17 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def analyze_emotion(user_message: str) -> dict:
     prompt = f"""
-너는 사용자의 발화를 바탕으로 감정을 분석하는 심리상담 AI야.
-사용자의 말에서 '우울(depression)', '불안(anxiety)', '무기력(lethargy)' 정도를 각각 0부터 100까지의 숫자로 평가해줘.
-가능한 다양한 감정 수치를 사용해줘. 1단위로 정밀하게 판단해.
-절대 5단위, 10단위 같은 둔화된 수치로만 반복하지 말고, 예: 61, 73, 47 같은 값도 활용해.
+너는 감정 분석 전문가야.
 
-다음 형식의 JSON으로만 응답해:
+사용자 발화에서 '우울(depression)', '불안(anxiety)', '무기력(lethargy)' 정도를 0부터 100까지의 **정수(integer)**로 평가해줘.
+1단위 정밀도로 추정하고, 5단위, 10단위 수치로 반복하지 말고 61, 73, 47 같은 다양한 수치를 사용해.
+
+❗주의: 반드시 아래 JSON 형식으로만 응답해야 해. 다른 텍스트는 절대 포함하지 마. reply, 설명, 문장 없이 **정확히 이 구조**만 응답해:
+
 {{
-  "depression": 숫자,
-  "anxiety": 숫자,
-  "lethargy": 숫자
+  "depression": 73,
+  "anxiety": 64,
+  "lethargy": 39
 }}
 
 사용자 발화: "{user_message}"
