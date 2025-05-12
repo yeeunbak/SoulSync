@@ -25,7 +25,7 @@ def analyze_emotion(user_message: str) -> dict:
 
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # 가능하면 "gpt-4o" 권장
+            model="gpt-4o",  # 가능하면 "gpt-4o" 권장
             messages=[
                 {"role": "user", "content": prompt}
             ],
