@@ -27,7 +27,7 @@ def analyze_emotion(user_message: str) -> dict:
 
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4o",  # 가능하면 "gpt-4o" 권장
+            model="gpt-4o",  # ← gpt-4o 권장
             messages=[
                 {"role": "user", "content": prompt}
             ],
@@ -35,11 +35,25 @@ def analyze_emotion(user_message: str) -> dict:
         )
 
         text = response['choices'][0]['message']['content']
-        print("GPT 응답:", text)  # 디버깅용 출력
+        print("GPT 응답:\n", text)
 
-        emotion = json.loads(text)  # 안전한 JSON 파싱
-        return emotion
+        # 코드블록 ```json 또는 ``` 제거 처리
+        clean_text = text.strip()
+        if clean_text.startswith("```json"):
+            clean_text = clean_text.removeprefix("```json").strip()
+        if clean_text.startswith("```"):
+            clean_text = clean_text.removeprefix("```").strip()
+        if clean_text.endswith("```"):
+            clean_text = clean_text.removesuffix("```").strip()
+
+        emotion = json.loads(clean_text)
+
+        return {
+            "depression": int(emotion.get("depression", 0)),
+            "anxiety": int(emotion.get("anxiety", 0)),
+            "lethargy": int(emotion.get("lethargy", 0))
+        }
 
     except Exception as e:
-        print(f"Error parsing response: {e}\nGPT returned:\n{text}")
+        print(f"\n❗Error parsing response: {e}\nGPT returned:\n{text}")
         return {"depression": 0, "anxiety": 0, "lethargy": 0}
