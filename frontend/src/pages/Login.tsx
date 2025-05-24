@@ -14,42 +14,46 @@ export default function Login() {
 
     try {
       const res = await login(username, password);
-      console.log(res.data);  // 성공 로그
-      navigate('/chat');      // 로그인 성공 시 채팅 페이지로 이동
+      console.log(res.data);
+      navigate('/chat');
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Login failed');
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm mb-2">Username</label>
+    <div className="flex items-center justify-center min-h-screen bg-white">
+      <div className="flex flex-col items-center w-full max-w-xs px-4">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold mb-2">안녕하세요!</h1>
+          <h2 className="text-2xl font-semibold">
+            당신의 친구, <span className="font-bold text-black">SoulSync</span>
+          </h2>
+        </div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
           <input
             type="text"
+            placeholder="아이디"
             value={username}
-            onChange={e => setUsername(e.target.value)}
-            className="w-full p-2 border rounded"
-            required
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded"
           />
-        </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm mb-2">Password</label>
           <input
             type="password"
+            placeholder="비밀번호"
             value={password}
-            onChange={e => setPassword(e.target.value)}
-            className="w-full p-2 border rounded"
-            required
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded"
           />
-        </div>
-        <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">
-          로그인
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full bg-sky-400 hover:bg-sky-500 text-white font-semibold py-2 rounded"
+          >
+            로그인
+          </button>
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        </form>
+      </div>
     </div>
   );
 }
