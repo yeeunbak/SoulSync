@@ -14,7 +14,7 @@ export default function LoginForm() {
 
     try {
       const res = await login(username, password);
-      navigate('/chat');
+      navigate('/chatMain');
     } catch (err: any) {
       setError(err.response?.data?.detail || '로그인에 실패했습니다.');
     }
