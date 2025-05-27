@@ -4,6 +4,7 @@ from app.routers import chat, diagnosis, chat_log  # 🧩 diagnosis 라우터도
 import openai
 import os
 from dotenv import load_dotenv
+from app.user import user_router
 
 load_dotenv()
 
@@ -25,6 +26,7 @@ app.add_middleware(
 app.include_router(chat.router)                 # 기존 챗봇 라우터
 app.include_router(diagnosis.router, prefix="/api")  # 진단지 라우터
 app.include_router(chat_log.router)
+app.include_router(user_router.router, prefix="/user")
 
 @app.get("/")
 def root():
