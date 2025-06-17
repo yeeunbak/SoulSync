@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 /* 메인 채팅 페이지 */
-=======
 import React, { useState } from 'react';
 import ChatSidebar from '../components/ChatSidebar';
 import ChatHeader from '../components/ChatHeader';
@@ -64,4 +62,3 @@ const ChatMain = () => {
 };
 
 export default ChatMain;
->>>>>>> 4eca8867a8b4b7864fd55ac1ef1fb312e607b021
