@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:8000/chat', // FastAPI chat endpoint
+  baseURL: 'http://localhost:8000/chat',
 });
 
 export const sendChatMessage = async (
@@ -16,5 +16,6 @@ export const sendChatMessage = async (
     message,
     show_emotion_score,
   });
+
   return response.data; // { reply: "...", emotion_score: {...} }
 };

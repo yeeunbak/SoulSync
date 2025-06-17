@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
 import sendIcon from '../assets/send-icon.svg';
-import { sendChatMessage } from '../api/chat'; // ✅ API 호출 함수 import
+import { sendChatMessage } from '../api/chat';
 
-const ChatInput = () => {
+interface ChatInputProps {
+  setModelReply: (text: string) => void;
+  setEmotionScore: (score: { depression: number; anxiety: number; lethargy: number }) => void;
+}
+
+const ChatInput: React.FC<ChatInputProps> = ({ setModelReply, setEmotionScore }) => {
   const [message, setMessage] = useState('');
 
   const handleSend = async () => {
     if (!message.trim()) return;
 
     try {
-      // ✅ API 호출
       const res = await sendChatMessage(
-        'testuser',          // 임시 user_id
-        'empathic',          // 임시 캐릭터 (나중에 선택값으로 대체 가능)
+        'testuser',       // 임시 사용자 ID
+        'empathic',       // 임시 캐릭터 타입
         message,
-        true                 // 감정 점수 포함
+        true              // 감정 점수 포함 요청
       );
 
       console.log('보낸 메시지:', message);
       console.log('GPT 응답:', res.reply);
       console.log('감정 점수:', res.emotion_score);
+
+      setModelReply(res.reply);
+      setEmotionScore(res.emotion_score); // 💡 감정 점수 상태 업데이트
 
       setMessage('');
     } catch (err) {
@@ -28,9 +35,7 @@ const ChatInput = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSend();
-    }
+    if (e.key === 'Enter') handleSend();
   };
 
   return (
