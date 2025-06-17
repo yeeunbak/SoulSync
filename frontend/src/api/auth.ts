@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-export async function login(username: string, password: string) {
-  return await axios.post('http://127.0.0.1:8000/user/login', {
-    username,
-    password,
-  });
-}
+const API = axios.create({
+  baseURL: 'http://localhost:8000/user', // 백엔드 서버 주소
+});
+
+export const login = async (username: string, password: string) => {
+  return await API.post('/login', { username, password });
+};
