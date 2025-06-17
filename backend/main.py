@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import chat, diagnosis, chat_log  # 🧩 diagnosis 라우터도 추가!
+from app.routers import chat, chat_log
 import openai
 import os
 from dotenv import load_dotenv
@@ -24,7 +24,6 @@ app.add_middleware(
 
 # 🧩 라우터 등록
 app.include_router(chat.router)                 # 기존 챗봇 라우터
-app.include_router(diagnosis.router, prefix="/api")  # 진단지 라우터
 app.include_router(chat_log.router)
 app.include_router(user_router.router, prefix="/user")
 
