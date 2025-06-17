@@ -1,5 +1,7 @@
 // frontend/src/components/CharacterPickForm.tsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 interface CharacterCardProps {
   name: string;

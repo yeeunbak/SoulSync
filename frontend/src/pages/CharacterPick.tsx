@@ -1,5 +1,6 @@
 /* 캐릭터선택창 */
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import CharacterCard from '../components/CharacterPickForm';
 
 import empathImg from '../assets/empath.png';
@@ -8,9 +9,14 @@ import advisorImg from '../assets/advisor.png';
 import traumaImg from '../assets/trauma.png';
 
 const CharacterPick: React.FC = () => {
+    const navigate = useNavigate();
+
   const handleCharacterSelect = (type: string) => {
     console.log(`${type} 캐릭터 선택됨`);
-    // TODO: 여기에 라우팅 또는 상태 저장 로직 추가 가능
+
+    if (type === "공감적 경청가형") {
+      navigate('/chat');
+    }
   };
 
   return (
