@@ -14,7 +14,8 @@ const ChatHeader = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
       <div className="space-x-2">
         <button
           onClick={() => navigate("/diagnosis")}
-          className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition"
+          className="px-4 py-2 bg-blue-100 hover:bg-blue-200 rounded-md text-sm font-semibold transition font-['Pretendard']"
+          style={{ color: "#3D56A6" }}
         >
           진단하기
         </button>
