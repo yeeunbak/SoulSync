@@ -1,44 +1,38 @@
-import React from "react";
+import React from 'react';
 
 interface GaugeBoxProps {
   depression: number;
   anxiety: number;
   lethargy: number;
   onClose: () => void;
-
 }
 
-const GaugeBox: React.FC<GaugeBoxProps> = ({ depression, anxiety, lethargy, onClose }) => {
-  const renderGauge = (label: string, value: number) => (
-    <div className="mt-4 mb-4">
-      <div className="text-sm font-bold text-black mb-1">{label}</div>
-      <div className="w-full h-4 bg-gray-300 rounded-full overflow-hidden">
+const GaugeBar = ({ label, value }: { label: string; value: number }) => {
+  return (
+    <div className="mb-4">
+      <div className="font-semibold text-black">{label}</div>
+      <div className="w-full h-4 bg-gray-300 rounded-full">
         <div
-          className="h-full bg-[#6388E6] transition-all duration-300"
-          style={{ width: `${value * 100}%` }}  
-        />
+          className="h-full bg-blue-500 rounded-full"
+          style={{ width: `${value}%` }} // 🎯 점수 비율로 표시 (0~100)
+        ></div>
       </div>
     </div>
   );
+};
 
+const GaugeBox: React.FC<GaugeBoxProps> = ({ depression, anxiety, lethargy, onClose }) => {
   return (
-    <div
-      className="absolute top-4 left-4 z-50 w-[350px] p-6 rounded-xl shadow-xl"
-      style={{
-        backgroundSize: "200%",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
-    >
-    <button
-    onClick={onClose}
-    className="absolute top-2 right-2 text-white bg-black bg-opacity-40 hover:bg-opacity-70 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold"
-    >
-    X
-    </button>
-      {renderGauge("우울", depression)}
-      {renderGauge("불안", anxiety)}
-      {renderGauge("무기력", lethargy)}
+    <div className="bg-white p-6 rounded-xl shadow-xl w-[300px] relative z-50">
+      <button
+        onClick={onClose}
+        className="absolute top-2 right-3 text-lg text-gray-600 hover:text-black"
+      >
+        ✕
+      </button>
+      <GaugeBar label="우울" value={depression} />
+      <GaugeBar label="불안" value={anxiety} />
+      <GaugeBar label="무기력" value={lethargy} />
     </div>
   );
 };

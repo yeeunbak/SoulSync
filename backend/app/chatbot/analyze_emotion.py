@@ -26,6 +26,7 @@ def analyze_emotion(user_message: str) -> dict:
 """
 
     try:
+        text = ""  # <- 여기에 기본값을 먼저 설정
         response = openai.ChatCompletion.create(
             model="gpt-4o",  # ← gpt-4o 권장
             messages=[
