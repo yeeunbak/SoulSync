@@ -1,8 +1,20 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const CrisisSupport = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // ✅ ChatMain에서 넘어올 때 상태로 보내준 값 체크
+  const fromChat = location.state?.fromChat === true;
+
+  const handleReturn = () => {
+    if (fromChat) {
+      navigate('/chat', { replace: true }); // 상태 유지하며 chat으로 복귀
+    } else {
+      navigate('/'); // 그 외에는 홈으로
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white text-black px-4 py-12">
@@ -35,7 +47,7 @@ const CrisisSupport = () => {
 
         <div className="flex justify-center gap-4">
           <button
-            onClick={() => navigate('/chat')}
+            onClick={handleReturn}
             className="px-6 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
           >
             다시 상담 이어가기

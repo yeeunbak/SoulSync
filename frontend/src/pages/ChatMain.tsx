@@ -138,7 +138,7 @@ const ChatMain = () => {
                 네, 괜찮아요.
               </button>
               <button
-                onClick={() => navigate("/crisis")}
+                onClick={() => navigate("/crisis", { state: { fromChat: true } })}
                 className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
               >
                 네, 안내해주세요.
