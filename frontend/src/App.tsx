@@ -8,6 +8,7 @@ import PHQ9 from './pages/PHQ9';
 import GAD7 from './pages/GAD7';
 import MKPQ16 from './pages/MKPQ16';
 import ChatLog from './pages/ChatLog';
+import CharacterPick from './pages/CharacterPick';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/gad7" element={<GAD7 />} />
         <Route path="/mkpq16" element={<MKPQ16 />} />
         <Route path="/chatlog" element={<ChatLog />} />
+        <Route path="/pick" element={<CharacterPick/>} />
 
       </Routes>
     </BrowserRouter>
