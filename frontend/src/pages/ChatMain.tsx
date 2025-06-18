@@ -112,7 +112,7 @@ const ChatMain = () => {
       </button>
 
       {showGauge && (
-        <div style={{ position: 'absolute', bottom: '42.5%', left: '16.5%', zIndex: 30 }}>
+        <div style={{ position: 'absolute', bottom: '45%', left: '14%', zIndex: 30 }}>
           <GaugeBox
             depression={emotionScore.depression}
             anxiety={emotionScore.anxiety}

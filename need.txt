@@ -1,0 +1,4 @@
+      \SoulSync\frontend\src\components\LoginForm.tsx 16줄
+      const res = await login(username, password);      // 변수 정의
+      navigate('/chat');        // 로그인시 이동 페이지 
+      
