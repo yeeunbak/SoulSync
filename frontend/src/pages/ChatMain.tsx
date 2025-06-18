@@ -27,7 +27,7 @@ const ChatMain = () => {
     lethargy: [] as number[],
   });
 
-  const navigate = useNavigate(); // ✅ 추가
+  const navigate = useNavigate();
 
   const handleNewEmotion = (newScore: { depression: number; anxiety: number; lethargy: number }) => {
     setEmotionHistory((prev) => {
@@ -67,7 +67,10 @@ const ChatMain = () => {
       >
         <img src={bubble} alt="말풍선" className="w-full h-auto opacity-80" />
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center px-10 py-10">
-          <div className="text-center text-base font-medium text-black leading-relaxed max-w-[700px] whitespace-pre-wrap">
+          <div
+            className="text-center text-base leading-relaxed max-w-[700px] whitespace-pre-wrap"
+            style={{ color: '#0A1172', fontFamily: 'Segoe UI, Pretendard, Noto Sans KR, sans-serif', fontWeight: 500 }}
+          >
             {modelReply.split(/\n|\\n/).map((line, idx) => (
               <p key={idx}>{line}</p>
             ))}
@@ -89,7 +92,7 @@ const ChatMain = () => {
         }}
       >
         <div style={{ position: 'relative', width: '180px', height: '180px' }}>
-          <img src={btnGuage} alt="버튼" className="w-full h-full opacity-60" />
+          <img src={btnGuage} alt="단어" className="w-full h-full opacity-60" />
           <span
             style={{
               position: 'absolute',
@@ -109,14 +112,7 @@ const ChatMain = () => {
       </button>
 
       {showGauge && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '46%',
-            left: '13%',
-            zIndex: 30,
-          }}
-        >
+        <div style={{ position: 'absolute', bottom: '45%', left: '14%', zIndex: 30 }}>
           <GaugeBox
             depression={emotionScore.depression}
             anxiety={emotionScore.anxiety}
@@ -142,7 +138,7 @@ const ChatMain = () => {
                 네, 괜찮아요.
               </button>
               <button
-                onClick={() => navigate("/crisis")} // ✅ 페이지 이동
+                onClick={() => navigate("/crisis")}
                 className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
               >
                 네, 안내해주세요.
