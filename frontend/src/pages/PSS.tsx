@@ -72,16 +72,20 @@ const PSS = () => {
 
       <button
         onClick={handleSubmit}
-        className="mt-16 mx-auto bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 block"
+        className="block mx-auto px-4 py-2 bg-blue-100 hover:bg-blue-200 rounded-md text-sm font-semibold transition font-['Pretendard']"
+        style={{ color: "#3D56A6" }}
       >
         결과보기
       </button>
 
       {score !== null && (
-        <div className="text-center mt-10 mb-20 text-xl font-semibold text-blue-600">
-          당신의 총 점수는 <span className="font-bold">{score}</span>점 입니다.
-        </div>
-      )}
+        <div
+        className="text-center mt-10 mb-20 text-xl font-semibold"
+        style={{ color: "#0A1172" }}
+        >
+        당신의 총 점수는 <span className="font-bold">{score}</span>점 입니다.
+      </div>
+)}
     </div>
   );
 };
