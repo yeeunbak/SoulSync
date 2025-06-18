@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ 추가
 import ChatSidebar from '../components/ChatSidebar';
 import ChatHeader from '../components/ChatHeader';
 import ChatInput from '../components/ChatInput';
@@ -12,24 +13,54 @@ const ChatMain = () => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [modelReply, setModelReply] = useState('');
   const [showGauge, setShowGauge] = useState(false);
+  const [showCrisisModal, setShowCrisisModal] = useState(false);
 
-  // ✅ 감정 점수 상태 추가
   const [emotionScore, setEmotionScore] = useState({
     depression: 0,
     anxiety: 0,
     lethargy: 0,
   });
 
+  const [emotionHistory, setEmotionHistory] = useState({
+    depression: [] as number[],
+    anxiety: [] as number[],
+    lethargy: [] as number[],
+  });
+
+  const navigate = useNavigate(); // ✅ 추가
+
+  const handleNewEmotion = (newScore: { depression: number; anxiety: number; lethargy: number }) => {
+    setEmotionHistory((prev) => {
+      const updated = {
+        depression: [...prev.depression, newScore.depression],
+        anxiety: [...prev.anxiety, newScore.anxiety],
+        lethargy: [...prev.lethargy, newScore.lethargy],
+      };
+
+      const average = {
+        depression: Math.round(updated.depression.reduce((a, b) => a + b, 0) / updated.depression.length),
+        anxiety: Math.round(updated.anxiety.reduce((a, b) => a + b, 0) / updated.anxiety.length),
+        lethargy: Math.round(updated.lethargy.reduce((a, b) => a + b, 0) / updated.lethargy.length),
+      };
+
+      setEmotionScore(average);
+
+      if (average.depression >= 70 && average.anxiety >= 70 && average.lethargy >= 70) {
+        setShowCrisisModal(true);
+      }
+
+      return updated;
+    });
+  };
+
   return (
     <div className="relative w-full h-screen bg-black text-white overflow-hidden">
-      {/* 캐릭터 이미지 */}
       <img
         src={character}
         alt="캐릭터"
         className="absolute z-0 left-1/2 top-1/2 w-[500px] h-auto -translate-x-1/2 -translate-y-1/2 opacity-90"
       />
 
-      {/* 말풍선 응답 텍스트 */}
       <div
         className="absolute z-10"
         style={{ top: '0.1%', right: '0.1%', width: '800px', height: 'auto' }}
@@ -44,7 +75,6 @@ const ChatMain = () => {
         </div>
       </div>
 
-      {/* 나의 상태 버튼 */}
       <button
         onClick={() => setShowGauge(true)}
         style={{
@@ -78,7 +108,6 @@ const ChatMain = () => {
         </div>
       </button>
 
-      {/* 감정 게이지 박스 */}
       {showGauge && (
         <div
           style={{
@@ -97,7 +126,32 @@ const ChatMain = () => {
         </div>
       )}
 
-      {/* 전체 레이아웃 */}
+      {showCrisisModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-xl p-8 w-[400px] text-center relative">
+            <h2 className="text-lg font-bold text-red-600 mb-3">안내해드릴까요?</h2>
+            <p className="text-sm text-gray-800 mb-6 leading-relaxed">
+              혹시 지금 많이 힘드신가요?<br />
+              필요한 경우 안전한 도움을 받을 수 있도록 도와드릴게요.
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setShowCrisisModal(false)}
+                className="px-4 py-2 rounded-lg border border-gray-400 text-gray-700 hover:bg-gray-100"
+              >
+                저는 괜찮아요
+              </button>
+              <button
+                onClick={() => navigate("/crisis")} // ✅ 페이지 이동
+                className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
+              >
+                네, 안내해주세요
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex h-screen bg-transparent text-white">
         {sidebarOpen && (
           <ChatSidebar
@@ -112,7 +166,7 @@ const ChatMain = () => {
             <div className="flex-1 flex items-center justify-center"></div>
             <ChatInput
               setModelReply={setModelReply}
-              setEmotionScore={setEmotionScore} // ✅ 전달
+              setEmotionScore={handleNewEmotion}
             />
           </div>
         </div>

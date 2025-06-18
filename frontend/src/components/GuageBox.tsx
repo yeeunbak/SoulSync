@@ -7,14 +7,21 @@ interface GaugeBoxProps {
   onClose: () => void;
 }
 
+// 색상 조건 함수
+const getGaugeColor = (value: number) => {
+  if (value >= 70) return 'bg-red-500';      // 경고
+  if (value >= 50) return 'bg-yellow-400';   // 주의
+  return 'bg-green-500';                      // 정상
+};
+
 const GaugeBar = ({ label, value }: { label: string; value: number }) => {
   return (
     <div className="mb-4">
       <div className="font-semibold text-black">{label}</div>
       <div className="w-full h-4 bg-gray-300 rounded-full">
         <div
-          className="h-full bg-blue-500 rounded-full"
-          style={{ width: `${value}%` }} // 🎯 점수 비율로 표시 (0~100)
+          className={`h-full rounded-full transition-all duration-300 ${getGaugeColor(value)}`}
+          style={{ width: `${value}%` }}
         ></div>
       </div>
     </div>

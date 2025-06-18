@@ -10,6 +10,14 @@ interface ChatInputProps {
 const ChatInput: React.FC<ChatInputProps> = ({ setModelReply, setEmotionScore }) => {
   const [message, setMessage] = useState('');
 
+  // 누적 점수 및 횟수 상태 추가
+  const [totalScore, setTotalScore] = useState({
+    depression: 0,
+    anxiety: 0,
+    lethargy: 0,
+  });
+  const [count, setCount] = useState(0);
+
   const handleSend = async () => {
     if (!message.trim()) return;
 
@@ -26,7 +34,24 @@ const ChatInput: React.FC<ChatInputProps> = ({ setModelReply, setEmotionScore })
       console.log('감정 점수:', res.emotion_score);
 
       setModelReply(res.reply);
-      setEmotionScore(res.emotion_score); // 💡 감정 점수 상태 업데이트
+
+      // 누적 점수 및 평균 계산
+      const newCount = count + 1;
+      const newTotal = {
+        depression: totalScore.depression + res.emotion_score.depression,
+        anxiety: totalScore.anxiety + res.emotion_score.anxiety,
+        lethargy: totalScore.lethargy + res.emotion_score.lethargy,
+      };
+
+      setTotalScore(newTotal);
+      setCount(newCount);
+
+      // 평균 감정 점수 업데이트
+      setEmotionScore({
+        depression: newTotal.depression / newCount,
+        anxiety: newTotal.anxiety / newCount,
+        lethargy: newTotal.lethargy / newCount,
+      });
 
       setMessage('');
     } catch (err) {
