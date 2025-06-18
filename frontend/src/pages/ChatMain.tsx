@@ -57,7 +57,11 @@ const ChatMain = () => {
     <div className="relative w-full h-screen bg-black text-white overflow-hidden">
       <img
         src={character}
+<<<<<<< HEAD
         alt="캐릭터"
+=======
+        alt="케릭터"
+>>>>>>> e0bdb6418c3777ddc61aeeba29144bbe0460e910
         className="absolute z-0 left-1/2 top-1/2 w-[500px] h-auto -translate-x-1/2 -translate-y-1/2 opacity-90"
       />
 
@@ -65,7 +69,11 @@ const ChatMain = () => {
         className="absolute z-10"
         style={{ top: '0.1%', right: '0.1%', width: '800px', height: 'auto' }}
       >
+<<<<<<< HEAD
         <img src={bubble} alt="답변 배경" className="w-full h-auto opacity-80" />
+=======
+        <img src={bubble} alt="말풍선" className="w-full h-auto opacity-80" />
+>>>>>>> e0bdb6418c3777ddc61aeeba29144bbe0460e910
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center px-10 py-10">
           <div className="text-center text-base font-medium text-black leading-relaxed max-w-[700px] whitespace-pre-wrap">
             {modelReply.split(/\n|\\n/).map((line, idx) => (
@@ -131,7 +139,11 @@ const ChatMain = () => {
           <div className="bg-white rounded-xl shadow-xl p-8 w-[400px] text-center relative">
             <h2 className="text-lg font-bold text-red-600 mb-3">안내해드릴까요?</h2>
             <p className="text-sm text-gray-800 mb-6 leading-relaxed">
+<<<<<<< HEAD
               혹시 지금 많이 힘드신가요?<br />
+=======
+              혹시 지금 많이 힘들다면?<br />
+>>>>>>> e0bdb6418c3777ddc61aeeba29144bbe0460e910
               필요한 경우 안전한 도움을 받을 수 있도록 도와드릴게요.
             </p>
             <div className="flex justify-center gap-4">
@@ -139,13 +151,17 @@ const ChatMain = () => {
                 onClick={() => setShowCrisisModal(false)}
                 className="px-4 py-2 rounded-lg border border-gray-400 text-gray-700 hover:bg-gray-100"
               >
+<<<<<<< HEAD
                 저는 괜찮아요
+=======
+                네, 괜찮아요.
+>>>>>>> e0bdb6418c3777ddc61aeeba29144bbe0460e910
               </button>
               <button
                 onClick={() => navigate("/crisis")} // ✅ 페이지 이동
                 className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
               >
-                네, 안내해주세요
+                네, 안내해주세요.
               </button>
             </div>
           </div>
