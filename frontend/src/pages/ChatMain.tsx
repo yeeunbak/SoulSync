@@ -27,7 +27,7 @@ const ChatMain = () => {
     lethargy: [] as number[],
   });
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // ✅ 추가
 
   const handleNewEmotion = (newScore: { depression: number; anxiety: number; lethargy: number }) => {
     setEmotionHistory((prev) => {
@@ -57,7 +57,7 @@ const ChatMain = () => {
     <div className="relative w-full h-screen bg-black text-white overflow-hidden">
       <img
         src={character}
-        alt="컴퓨드"
+        alt="캐릭터"
         className="absolute z-0 left-1/2 top-1/2 w-[500px] h-auto -translate-x-1/2 -translate-y-1/2 opacity-90"
       />
 
@@ -65,12 +65,9 @@ const ChatMain = () => {
         className="absolute z-10"
         style={{ top: '0.1%', right: '0.1%', width: '800px', height: 'auto' }}
       >
-        <img src={bubble} alt="말푸시" className="w-full h-auto opacity-80" />
+        <img src={bubble} alt="답변 배경" className="w-full h-auto opacity-80" />
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center px-10 py-10">
-          <div
-            className="text-center text-base leading-relaxed max-w-[700px] whitespace-pre-wrap"
-            style={{ color: '#0A1172', fontFamily: 'Segoe UI, Pretendard, Noto Sans KR, sans-serif', fontWeight: 500 }}
-          >
+          <div className="text-center text-base font-medium text-black leading-relaxed max-w-[700px] whitespace-pre-wrap">
             {modelReply.split(/\n|\\n/).map((line, idx) => (
               <p key={idx}>{line}</p>
             ))}
@@ -92,7 +89,7 @@ const ChatMain = () => {
         }}
       >
         <div style={{ position: 'relative', width: '180px', height: '180px' }}>
-          <img src={btnGuage} alt="단어" className="w-full h-full opacity-60" />
+          <img src={btnGuage} alt="버튼" className="w-full h-full opacity-60" />
           <span
             style={{
               position: 'absolute',
@@ -112,18 +109,14 @@ const ChatMain = () => {
       </button>
 
       {showGauge && (
-<<<<<<< HEAD
         <div
           style={{
             position: 'absolute',
             bottom: '46%',
-            left: '13.5%',
+            left: '13%',
             zIndex: 30,
           }}
         >
-=======
-        <div style={{ position: 'absolute', bottom: '42.5%', left: '16.5%', zIndex: 30 }}>
->>>>>>> 009c5a17fc915a13fef19ce7c1d23a7db32e3f6b
           <GaugeBox
             depression={emotionScore.depression}
             anxiety={emotionScore.anxiety}
@@ -138,18 +131,18 @@ const ChatMain = () => {
           <div className="bg-white rounded-xl shadow-xl p-8 w-[400px] text-center relative">
             <h2 className="text-lg font-bold text-red-600 mb-3">안내해드릴까요?</h2>
             <p className="text-sm text-gray-800 mb-6 leading-relaxed">
-              혹시 지금 많이 히들다면?<br />
-              필요한 경우 안전한 도움을 받을 수 있도록 도우머드림.
+              혹시 지금 많이 힘드신가요?<br />
+              필요한 경우 안전한 도움을 받을 수 있도록 도와드릴게요.
             </p>
             <div className="flex justify-center gap-4">
               <button
                 onClick={() => setShowCrisisModal(false)}
                 className="px-4 py-2 rounded-lg border border-gray-400 text-gray-700 hover:bg-gray-100"
               >
-                저는 귀여워요
+                저는 괜찮아요
               </button>
               <button
-                onClick={() => navigate("/crisis")}
+                onClick={() => navigate("/crisis")} // ✅ 페이지 이동
                 className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
               >
                 네, 안내해주세요
