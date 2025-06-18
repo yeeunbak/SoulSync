@@ -24,7 +24,7 @@ const CrisisSupport = () => {
         </h1>
 
         <p className="text-center text-base mb-6">
-          지금 많이 힘드시다면, 아래의 전문 기관이나 도움 경로를 통해 꼭 도움을 받아보세요.
+          지금 많이 힘드신가요?<br />아래의 전문 기관이나 도움 경로를 통해 꼭 도움을 받아보세요.
         </p>
 
         <div className="bg-white border border-gray-300 rounded-md p-4 mb-6">
@@ -33,10 +33,16 @@ const CrisisSupport = () => {
               <span className="font-semibold">📞 정신건강 상담전화:</span> 1577-0199 (24시간 상담 가능)
             </li>
             <li>
-              <span className="font-semibold">💬 카카오톡 챗봇 '마음톡톡':</span> 카카오톡에서 "마음톡톡" 검색
+              <span className="font-semibold">🚨 한국생명의전화:</span> 1588-9191 (자살 위기 중재)
             </li>
             <li>
-              <span className="font-semibold">🏥 가까운 병원이나 상담센터:</span> 정신건강복지센터 방문 상담
+              <span className="font-semibold">💬 문자 상담:</span> 1577-0199 (전화가 어려울 땐 문자로)
+            </li>
+            <li>
+              <span className="font-semibold">🧠 마인드링크 화상 상담:</span> www.mindlink.or.kr
+            </li>
+            <li>
+              <span className="font-semibold">🏥 가까운 병원이나 상담 센터:</span> 정신 건강 복지 센터 방문 상담
             </li>
           </ul>
         </div>
