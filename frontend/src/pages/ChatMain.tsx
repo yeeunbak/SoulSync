@@ -4,25 +4,14 @@ import ChatSidebar from '../components/ChatSidebar';
 import ChatHeader from '../components/ChatHeader';
 import ChatInput from '../components/ChatInput';
 import character from '../assets/character_Main.png';
-<<<<<<< HEAD
-import bubble from '../assets/Bold2.svg';
-=======
 import bubble from '../assets/Bold3.svg';
 import btnGuage from '../assets/button_gauge.svg'
 import GaugeBox from "../components/GuageBox";
 
->>>>>>> 8e2f56b0a443e58cbe5c6501d58ad74c58b8eae8
 
 const ChatMain = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeChat, setActiveChat] = useState<number | null>(null);
-<<<<<<< HEAD
-  const modelReply = "  ";
-
-  return (
-    <div className="relative w-full h-screen bg-black text-white overflow-hidden">
-      {/* 👤 캐릭터 이미지 */}
-=======
   const modelReply = " 대화내용 ";
   const [showGauge, setShowGauge] = useState(false); //  버튼 상태
   const depression = 0.7, anxiety = 0.5, lethargy = 0.6; // 임시 수치
@@ -30,45 +19,28 @@ const ChatMain = () => {
   return (
     <div className="relative w-full h-screen bg-black text-white overflow-hidden">
       {/*  캐릭터 이미지 */}
->>>>>>> 8e2f56b0a443e58cbe5c6501d58ad74c58b8eae8
       <img
         src={character}
         alt="캐릭터"
         className="absolute z-0 left-1/2 top-1/2 w-[500px] h-auto -translate-x-1/2 -translate-y-1/2 opacity-90"
       />
 
-<<<<<<< HEAD
-      {/* 💬 말풍선 답변 */}
-      <div
-        className="absolute z-10"
-        style={{
-          top: "0.1%",
-          right: "0.1%",
-=======
       {/*  말풍선 답변 */}
       <div
         className="absolute z-10"
         style={{
           top: "10%",
           right: "2%",
->>>>>>> 8e2f56b0a443e58cbe5c6501d58ad74c58b8eae8
           width: "800px",
           height: "auto",
         }}
       >
         <img src={bubble} alt="답변 배경" className="w-full h-auto opacity-80" />
-<<<<<<< HEAD
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center px-6 py-4 text-sm font-semibold leading-relaxed text-black">
-=======
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center px-6 py-4 text-sm font-bold leading-relaxed text-black">
->>>>>>> 8e2f56b0a443e58cbe5c6501d58ad74c58b8eae8
           {modelReply}
         </div>
       </div>
 
-<<<<<<< HEAD
-      {/* 💻 페이지 전체 레이아웃 */}
-=======
 <button
   onClick={() => setShowGauge(true)}
   style={{
@@ -136,7 +108,6 @@ const ChatMain = () => {
   </div>
 )}
       {/*  페이지 전체 레이아웃 */}
->>>>>>> 8e2f56b0a443e58cbe5c6501d58ad74c58b8eae8
       <div className="flex h-screen bg-transparent text-white">
         {/* 사이드바 */}
         {sidebarOpen && (

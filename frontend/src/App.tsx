@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import ChatMain from './pages/ChatMain';
-<<<<<<< HEAD
-=======
 import CharacterPick from './pages/CharacterPick';
 import DiagnosisPick from './pages/DiagnosisPick';
 
@@ -10,7 +8,6 @@ import PSS from './pages/PSS';
 import PHQ9 from './pages/PHQ9';
 import GAD7 from './pages/GAD7';
 import MKPQ16 from './pages/MKPQ16';
->>>>>>> 8e2f56b0a443e58cbe5c6501d58ad74c58b8eae8
 
 function App() {
   return (
