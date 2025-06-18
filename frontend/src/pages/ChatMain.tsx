@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ 추가
 import ChatSidebar from '../components/ChatSidebar';
 import ChatHeader from '../components/ChatHeader';
 import ChatInput from '../components/ChatInput';
@@ -26,6 +27,11 @@ const ChatMain = () => {
     lethargy: [] as number[],
   });
 
+<<<<<<< HEAD
+=======
+  const navigate = useNavigate(); // ✅ 추가
+
+>>>>>>> 850464e50bc519513d3c54e9ee7334c80c3695f0
   const handleNewEmotion = (newScore: { depression: number; anxiety: number; lethargy: number }) => {
     setEmotionHistory((prev) => {
       const updated = {
@@ -139,7 +145,11 @@ const ChatMain = () => {
                 저는 괜찮아요
               </button>
               <button
+<<<<<<< HEAD
                 onClick={() => alert("외부 도움 연결 예정")}
+=======
+                onClick={() => navigate("/crisis")} // ✅ 페이지 이동
+>>>>>>> 850464e50bc519513d3c54e9ee7334c80c3695f0
                 className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
               >
                 네, 안내해주세요
