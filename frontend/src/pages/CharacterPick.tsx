@@ -92,9 +92,14 @@ const CharacterPick: React.FC = () => {
       </div>
 
       <div className="relative z-10 mt-16 text-center">
-        <p className="text-gray-500 text-sm">
-          💡 <span className="font-medium">팁:</span> 각 캐릭터에 마우스를 올려보시면 더 자세한 정보를 확인할 수 있습니다.
-        </p>
+        <div className="flex items-center justify-center space-x-2">
+          <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+            <span className="text-white font-bold text-xs">S</span>
+          </div>
+          <p className="text-gray-500 text-sm">
+            <span className="font-medium"></span> 각 캐릭터에 마우스를 올려보시면 더 자세한 정보를 확인할 수 있습니다.
+          </p>
+        </div>
       </div>
     </div>
   );
