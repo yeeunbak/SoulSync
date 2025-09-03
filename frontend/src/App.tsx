@@ -3,12 +3,12 @@ import Login from './pages/Login';
 import ChatMain from './pages/ChatMain';
 import DiagnosisPick from './pages/DiagnosisPick';
 import CrisisSupport from './pages/CrisisSupport'; // ✅ 위기지원 페이지 import 추가
+import CharacterPick from './pages/CharacterPick';
 import PSS from './pages/PSS';
 import PHQ9 from './pages/PHQ9';
 import GAD7 from './pages/GAD7';
 import MKPQ16 from './pages/MKPQ16';
 import ChatLog from './pages/ChatLog';
-import CharacterPick from './pages/CharacterPick';
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         <Route path="/gad7" element={<GAD7 />} />
         <Route path="/mkpq16" element={<MKPQ16 />} />
         <Route path="/chatlog" element={<ChatLog />} />
-        <Route path="/pick" element={<CharacterPick/>} />
+        <Route path="/pick" element={<CharacterPick />} />
 
       </Routes>
     </BrowserRouter>

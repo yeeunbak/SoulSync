@@ -1,3 +1,4 @@
+//ChatSidebar.tsx
 import { useNavigate } from "react-router-dom";
 
 
@@ -17,7 +18,7 @@ const ChatSidebar = ({ onSelectChat, onClose }: ChatSidebarProps) => {
       </div>
             <button
               onClick={() => navigate("/chatlog")}
-              className="w-full text-right hover:underline"
+              className="w-full text-right hover:bg-gray-200 px-2 py-1 rounded-md focus:outline-none focus:ring-0"
             >
                2025 .06 .18
             </button>

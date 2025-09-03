@@ -45,7 +45,7 @@ const ChatMain = () => {
 
       setEmotionScore(average);
 
-      if (average.depression >= 70 && average.anxiety >= 70 && average.lethargy >= 70) {
+      if (average.depression >= 70 && average.anxiety >= 70 && average.lethargy >= 50) {
         setShowCrisisModal(true);
       }
 
@@ -112,7 +112,7 @@ const ChatMain = () => {
       </button>
 
       {showGauge && (
-        <div style={{ position: 'absolute', bottom: '45%', left: '14%', zIndex: 30 }}>
+        <div style={{ position: 'absolute', bottom: '49%', left: '14.5%', zIndex: 30 }}>
           <GaugeBox
             depression={emotionScore.depression}
             anxiety={emotionScore.anxiety}
@@ -138,7 +138,7 @@ const ChatMain = () => {
                 네, 괜찮아요.
               </button>
               <button
-                onClick={() => navigate("/crisis")}
+                onClick={() => navigate("/crisis", { state: { fromChat: true } })}
                 className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
               >
                 네, 안내해주세요.

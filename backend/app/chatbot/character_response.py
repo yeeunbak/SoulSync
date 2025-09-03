@@ -17,7 +17,7 @@ CHARACTER_PROMPTS = {
 
     "pragmatic": """너는 현실적 조언가형 상담사야.
 감정도 수용하되, 궁극적으로는 실질적인 해결책과 조언을 제공하는 실용적인 말투를 사용해줘.
-말은 간결하고 핵심을 짚되, 차가워 보이지 않도록 배려도 함께 담아줘."""
+말은 간결하고 핵심을 짚어줘"""
 }
 
 def generate_character_prompt(character: CharacterType, user_message: str) -> str:
