@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { CharacterProvider } from './contexts/CharacterContext';
 import Login from './pages/Login';
 import ChatMain from './pages/ChatMain';
 import DiagnosisPick from './pages/DiagnosisPick';
@@ -12,21 +13,22 @@ import ChatLog from './pages/ChatLog';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/chat" element={<ChatMain />} />
-        <Route path="/diagnosis" element={<DiagnosisPick />} />
-        <Route path="/crisis" element={<CrisisSupport />} /> {/* ✅ 위기지원 라우팅 추가 */}
-        <Route path="/pss" element={<PSS />} />
-        <Route path="/phq9" element={<PHQ9 />} />
-        <Route path="/gad7" element={<GAD7 />} />
-        <Route path="/mkpq16" element={<MKPQ16 />} />
-        <Route path="/chatlog" element={<ChatLog />} />
-        <Route path="/pick" element={<CharacterPick />} />
-
-      </Routes>
-    </BrowserRouter>
+    <CharacterProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/chat" element={<ChatMain />} />
+          <Route path="/diagnosis" element={<DiagnosisPick />} />
+          <Route path="/crisis" element={<CrisisSupport />} /> {/* ✅ 위기지원 라우팅 추가 */}
+          <Route path="/pss" element={<PSS />} />
+          <Route path="/phq9" element={<PHQ9 />} />
+          <Route path="/gad7" element={<GAD7 />} />
+          <Route path="/mkpq16" element={<MKPQ16 />} />
+          <Route path="/chatlog" element={<ChatLog />} />
+          <Route path="/pick" element={<CharacterPick />} />
+        </Routes>
+      </BrowserRouter>
+    </CharacterProvider>
   );
 }
 

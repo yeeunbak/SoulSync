@@ -19,8 +19,8 @@ async def chat_with_bot(
         emotion_score = analyze_emotion(chat_input.message)
 
         # 2. 캐릭터 프롬프트 생성
-        base_prompt = generate_character_prompt(chat_input.character, "")  # ✅ 빈 메시지로 캐릭터 스타일만 추출
-        messages = [{"role": "system", "content": base_prompt}]  # ✅ 캐릭터 설정을 system 메시지로 전달
+        base_prompt = generate_character_prompt(chat_input.character, chat_input.message)
+        messages = [{"role": "system", "content": base_prompt}]
 
         # 3. 이전 대화 불러오기 (최근 5개)
         past_chats = await get_user_chats(db, chat_input.user_id, limit=5)

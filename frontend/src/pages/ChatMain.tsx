@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChatSidebar from '../components/ChatSidebar';
 import ChatHeader from '../components/ChatHeader';
 import ChatInput from '../components/ChatInput';
 import GaugeBox from '../components/GuageBox';
+import { useCharacter } from '../contexts/CharacterContext';
 import character from '../assets/character_Main.png';
 import bubble from '../assets/Bold2.svg';
 import btnGuage from '../assets/button_gauge.svg';
 
+
 const ChatMain = () => {
+  const { selectedCharacter } = useCharacter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeChat, setActiveChat] = useState<number | null>(null);
+  const [, setActiveChat] = useState<number | null>(null);
   const [modelReply, setModelReply] = useState('');
   const [showGauge, setShowGauge] = useState(false);
   const [showCrisisModal, setShowCrisisModal] = useState(false);
@@ -21,13 +24,21 @@ const ChatMain = () => {
     lethargy: 0,
   });
 
-  const [emotionHistory, setEmotionHistory] = useState({
+  const [, setEmotionHistory] = useState({
     depression: [] as number[],
     anxiety: [] as number[],
     lethargy: [] as number[],
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!selectedCharacter) {
+      navigate('/pick');
+    } else {
+      setModelReply(selectedCharacter.greeting);
+    }
+  }, [selectedCharacter, navigate]);
 
   const handleNewEmotion = (newScore: { depression: number; anxiety: number; lethargy: number }) => {
     setEmotionHistory((prev) => {
@@ -56,24 +67,27 @@ const ChatMain = () => {
   return (
     <div className="relative w-full h-screen bg-black text-white overflow-hidden">
       <img
-        src={character}
-        alt="케릭터"
+        src={selectedCharacter?.image || character}
+        alt={selectedCharacter?.name || "케릭터"}
         className="absolute z-0 left-1/2 top-1/2 w-[500px] h-auto -translate-x-1/2 -translate-y-1/2 opacity-90"
       />
 
-      <div
-        className="absolute z-10"
-        style={{ top: '0.1%', right: '0.1%', width: '800px', height: 'auto' }}
-      >
-        <img src={bubble} alt="말풍선" className="w-full h-auto opacity-80" />
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center px-10 py-10">
-          <div
-            className="text-center text-base leading-relaxed max-w-[700px] whitespace-pre-wrap"
-            style={{ color: '#0A1172', fontFamily: 'Segoe UI, Pretendard, Noto Sans KR, sans-serif', fontWeight: 500 }}
-          >
-            {modelReply.split(/\n|\\n/).map((line, idx) => (
-              <p key={idx}>{line}</p>
-            ))}
+      <div className="absolute z-10 top-32 right-16 w-[500px] h-[300px]">
+        <div className="w-full h-full bg-white rounded-full shadow-2xl border border-gray-100 overflow-hidden">
+          <div className="w-full h-full flex items-center justify-center p-12">
+            <div
+              className="text-center text-base leading-relaxed max-w-full whitespace-pre-wrap overflow-y-auto scrollbar-hide"
+              style={{ 
+                color: '#0A1172', 
+                fontFamily: 'Segoe UI, Pretendard, Noto Sans KR, sans-serif', 
+                fontWeight: 500,
+                maxHeight: '100%'
+              }}
+            >
+              {modelReply.split(/\n|\\n/).map((line, idx) => (
+                <p key={idx} className="mb-2 last:mb-0">{line}</p>
+              ))}
+            </div>
           </div>
         </div>
       </div>
