@@ -5,3 +5,8 @@ openai==0.28.1
 pydantic
 motor
 firebase_admin
+langchain
+langchain-openai
+chromadb
+faiss-cpu
+tiktoken
