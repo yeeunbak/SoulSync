@@ -5,7 +5,6 @@ import openai
 import os
 from dotenv import load_dotenv
 from app.user import user_router
-from app.routers import chat_v2   # 새 라우터
 
 load_dotenv()
 
