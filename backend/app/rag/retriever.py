@@ -2,12 +2,13 @@ from __future__ import annotations
 from typing import List, Dict, Any
 import os, openai
 from .vector import VectorDB
+from app.openai_client import client, EMBED_MODEL
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "text-embedding-ada-002")
 
 def _embed_query(text: str) -> List[float]:
-    resp = openai.Embedding.create(model=EMBED_MODEL, input=[text])
+    resp = client.embeddings.create(model=EMBED_MODEL, input=[text])
     return resp["data"][0]["embedding"]
 
 def retrieve_context(user_id: str, query_text: str, top_k: int = 4) -> List[Dict[str, Any]]:
