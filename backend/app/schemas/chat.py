@@ -1,5 +1,6 @@
-from pydantic import BaseModel
+# app/schemas/chat.py
 from typing import Optional, Literal
+from pydantic import BaseModel
 
 class ChatRequest(BaseModel):
     user_id: str
@@ -11,3 +12,4 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     reply: str
     emotion_score: Optional[dict] = None
+    retrieval_count: Optional[int] = None
