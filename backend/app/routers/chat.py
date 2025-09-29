@@ -1,60 +1,59 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.schemas.chat import ChatRequest, ChatResponse, EmotionScore
-from app.chatbot.analyze_emotion import analyze_emotion
+from app.schemas.chat import ChatRequest, ChatResponse
+from app.chatbot.analyze_emotion import analyze_emotion  # 기존 함수가 있으면 유지
 from app.chatbot.character_response import generate_character_prompt
-from app.crud.chat import save_chat, get_user_chats  # ✅ 추가된 부분
+from app.crud.chat import save_chat, get_user_chats
 from app.models.chat import ChatDBModel
 from app.db.mongo import get_database
-import openai
+from app.rag.service import rag_chat
+from openai import OpenAI
 
+client = OpenAI()
 router = APIRouter(prefix="/chat", tags=["Chat"])
 
 @router.post("/", response_model=ChatResponse)
-async def chat_with_bot(
-    chat_input: ChatRequest,
-    db = Depends(get_database)
-):
+async def chat_with_bot(chat_input: ChatRequest, db = Depends(get_database)):
     try:
-        # 1. 감정 분석
-        emotion_score = analyze_emotion(chat_input.message)
+        mode = getattr(chat_input, "mode", "basic") or "basic"
 
-        # 2. 캐릭터 프롬프트 생성
+        # ===== RAG =====
+        if mode == "rag":
+            result = await rag_chat(chat_input.user_id, chat_input.character, chat_input.message)
+            bot_reply = result["reply"]
+            emotion_score = result.get("emotion_score")
+            await save_chat(db, ChatDBModel(
+                user_id=chat_input.user_id,
+                character=chat_input.character,
+                user_message=chat_input.message,
+                bot_reply=bot_reply,
+                emotion_score=emotion_score
+            ))
+            return {"reply": bot_reply, "emotion_score": emotion_score if chat_input.show_emotion_score else None}
+
+        # ===== BASIC =====
+        emotion_score = analyze_emotion(chat_input.message)
         base_prompt = generate_character_prompt(chat_input.character, chat_input.message)
         messages = [{"role": "system", "content": base_prompt}]
 
-        # 3. 이전 대화 불러오기 (최근 5개)
         past_chats = await get_user_chats(db, chat_input.user_id, limit=5)
-        for chat in reversed(past_chats):  # 최신 순 정렬
+        for chat in reversed(past_chats):
             messages.append({"role": "user", "content": chat["user_message"]})
             messages.append({"role": "assistant", "content": chat["bot_reply"]})
 
-        # 4. 현재 메시지 추가
         messages.append({"role": "user", "content": chat_input.message})
 
-        # 5. GPT 호출
-        completion = openai.ChatCompletion.create(
-            model="gpt-4o",
-            messages=messages,
-            temperature=0.7
-        )
-        bot_reply = completion["choices"][0]["message"]["content"].strip()
+        resp = client.chat.completions.create(model="gpt-4o", messages=messages, temperature=0.7)
+        bot_reply = resp.choices[0].message.content or ""
 
-        # 6. DB 저장
-        chat_record = ChatDBModel(
+        await save_chat(db, ChatDBModel(
             user_id=chat_input.user_id,
             character=chat_input.character,
             user_message=chat_input.message,
             bot_reply=bot_reply,
             emotion_score=emotion_score
-        )
-        await save_chat(db, chat_record)
+        ))
 
-        # 7. 응답
-        response = {
-            "reply": bot_reply,
-            "emotion_score": emotion_score if chat_input.show_emotion_score else None
-        }
-        return response
+        return {"reply": bot_reply, "emotion_score": emotion_score if chat_input.show_emotion_score else None}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

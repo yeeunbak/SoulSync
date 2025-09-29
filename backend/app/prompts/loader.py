@@ -8,20 +8,25 @@ _FILE_MAP = {
     "insightful": "character_insightful.jinja",
     "pragmatic": "character_pragmatic.jinja",
     "trauma_sensitive": "character_trauma_sensitive.jinja",
+    # fallback
 }
 
-def load_template(character: str) -> str:
-    name = _FILE_MAP.get(character, _FILE_MAP["empathic"])
+def _load(name: str) -> str:
     path = PROMPTS_DIR / name
+    if not path.exists():
+        raise FileNotFoundError(f"Prompt file not found: {path}")
     return path.read_text(encoding="utf-8")
 
-def render(character: str, *, context: str, user_message: str, gauge: Dict[str, int], dialogue_summary: str = "") -> str:
-    tpl = load_template(character)
-    # 아주 단순한 치환 (Jinja2 없이 동작)
+def load_system_prompt(character: str) -> str:
+    fname = _FILE_MAP.get(character, "character_empathic.jinja")
+    return _load(fname)
+
+def render(character: str, *, context: str, gauge: Dict[str, int], user_message: str = "", dialogue_summary: str = "") -> str:
+    tpl = load_system_prompt(character)
     out = tpl
     out = out.replace("{{context}}", context)
-    out = out.replace("{{user_message}}", user_message)
     out = out.replace("{{dialogue_summary}}", dialogue_summary)
+    out = out.replace("{{user_message}}", user_message)
     out = out.replace("{{gauge.depression}}", str(gauge.get("depression", 0)))
     out = out.replace("{{gauge.anxiety}}", str(gauge.get("anxiety", 0)))
     out = out.replace("{{gauge.lethargy}}", str(gauge.get("lethargy", 0)))
