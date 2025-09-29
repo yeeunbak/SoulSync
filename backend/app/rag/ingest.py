@@ -10,7 +10,6 @@ from openai import OpenAI  # v1 client
 # =========================
 # ENV 로드 & OpenAI 클라이언트
 # =========================
-# ✅ .env 로드 (backend/.env 우선)
 try:
     from dotenv import load_dotenv  # type: ignore
     ENV_PATH = Path(__file__).resolve().parents[2] / ".env"  # backend/.env
@@ -21,21 +20,20 @@ try:
 except Exception:
     pass
 
-# ✅ API 키 필수 확인 & 클라이언트 생성
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     raise RuntimeError("OPENAI_API_KEY is not set. Put it in backend/.env or set env var.")
 client = OpenAI(api_key=api_key)
 
-# ✅ 임베딩/모델 기본값 (v1 권장)
+# 모델/배치 설정
 EMBED_MODEL = os.getenv("EMBED_MODEL", "text-embedding-3-small")
+EMBED_BATCH = int(os.getenv("EMBED_BATCH", "200"))          # 임베딩 한 번에 보낼 문장 수
+CHROMA_UPSERT_BATCH = int(os.getenv("CHROMA_UPSERT_BATCH", "2000"))  # Chroma 업서트 배치 크기
+INGEST_LIMIT = int(os.getenv("INGEST_LIMIT", "0"))  # 0이면 전체
 
-# =========================
-# 경로/컬렉션/옵션
-# =========================
+# 경로/컬렉션
 DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "raw"
 COLLECTION = "corpus_emotion"
-INGEST_LIMIT = int(os.getenv("INGEST_LIMIT", "0"))  # 0이면 전체
 
 # 추출 힌트 키
 TEXT_KEY_HINTS: Set[str] = {
@@ -45,7 +43,6 @@ TEXT_KEY_HINTS: Set[str] = {
 }
 SKIP_KEY_HINTS: Set[str] = {"id","idx","index","time","timestamp","date","label_id"}
 HANGUL_RE = re.compile(r"[가-힣]")
-
 # =========================
 # 디버그
 # =========================
@@ -195,25 +192,22 @@ def _load_corpus() -> List[Dict[str, Any]]:
     return uniq_rows
 
 # =========================
-# 임베딩
+# 임베딩 & 업서트 (스트리밍)
 # =========================
-def _embed_batch(texts: List[str], batch_size: int = 200) -> List[List[float]]:
+def _make_id(src: str, text: str) -> str:
+    h = hashlib.blake2b(text.encode("utf-8"), digest_size=8).hexdigest()
+    return f"{src}-{h}"
+
+def _embed(texts: List[str]) -> List[List[float]]:
+    # 한 번에 EMBED_BATCH 만큼만 임베딩
     embs: List[List[float]] = []
     total = len(texts)
-    for i in range(0, total, batch_size):
-        chunk = texts[i:i+batch_size]
+    for i in range(0, total, EMBED_BATCH):
+        chunk = texts[i:i+EMBED_BATCH]
         resp = client.embeddings.create(model=EMBED_MODEL, input=chunk)
         embs.extend([d.embedding for d in resp.data])
         print(f"[INFO] embedded {i+len(chunk)}/{total}")
     return embs
-
-# =========================
-# ID 생성 (중복 방지)
-# =========================
-# ✅ 해시 기반 ID 생성: 동일 텍스트는 동일 해시 → 업서트 안정
-def _make_id(src: str, text: str) -> str:
-    h = hashlib.blake2b(text.encode("utf-8"), digest_size=8).hexdigest()
-    return f"{src}-{h}"
 
 # =========================
 # 엔트리 포인트
@@ -226,20 +220,21 @@ def ingest_corpus_emotion() -> int:
 
     texts = [r["text"] for r in rows]
     metas = [r["meta"] for r in rows]
-
-    # ✅ ID 생성부 교체: src + text 해시
     ids = [_make_id(m.get("src", "?"), texts[i]) for i, m in enumerate(metas)]
 
-    # (안전) 혹시라도 중복이 남아있다면 enumerate로 보정
-    if len(ids) != len(set(ids)):
-        print("[WARN] duplicate IDs detected after hashing; falling back to enumerated IDs.")
-        ids = [f'{m.get("src","?")}-{i}' for i, m in enumerate(metas)]
-
     print(f"[INFO] embedding {len(texts)} items...")
-    embs = _embed_batch(texts)
+    embs = _embed(texts)
 
+    # ✅ 업서트도 배치로 쪼개서 넣기 (Chroma 제한 회피)
     vdb = VectorDB()
-    vdb.upsert_texts(COLLECTION, ids, texts, metas, embs)
+    vdb.upsert_texts_batched(
+        COLLECTION,
+        ids=ids,
+        texts=texts,
+        metadatas=metas,
+        embeddings=embs,
+        batch_size=CHROMA_UPSERT_BATCH,
+    )
     print(f"[INFO] upserted {len(texts)} items into '{COLLECTION}'")
 
     return len(texts)
