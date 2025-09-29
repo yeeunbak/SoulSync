@@ -1,19 +1,13 @@
-from typing import Optional, Literal
 from pydantic import BaseModel
+from typing import Optional, Literal
 
-class EmotionScore(BaseModel):
-    depression: int
-    anxiety: int
-    lethargy: int
-
-# ✅ 'mode' 필드만 추가 (기본 'basic')
 class ChatRequest(BaseModel):
     user_id: str
-    character: Literal['empathic', 'insightful', 'pragmatic', 'trauma_sensitive']
+    character: str
     message: str
     show_emotion_score: bool = False
-    mode: Optional[Literal['basic', 'rag']] = 'basic'  # ← 추가
+    mode: Literal["basic", "rag"] = "basic"
 
 class ChatResponse(BaseModel):
     reply: str
-    emotion_score: Optional[EmotionScore] = None
+    emotion_score: Optional[dict] = None
